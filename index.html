@@ -29,9 +29,6 @@
     /* Aviso de clique */
     .click-here {
       position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
       text-align: center;
       font-size: 18px;
       color: black;
@@ -45,15 +42,13 @@
       margin-top: 5px;
     }
 
-    /* Círculo rosa (mudança feita) */
+    /* Círculo azul */
     .circle {
       position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 100vw;
-      height: 100vh;
+      width: 200vmax;
+      height: 200vmax;
       border-radius: 50%;
-      background: #FF69B4; /* cor rosa */
+      background: #87CEFA;
       z-index: 1;
       transform: translate(-50%, -50%) scale(0);
       transition: transform 4s ease;
@@ -75,13 +70,13 @@
     /* Texto central na onda */
     .wave-text {
       position: absolute;
-      bottom: 15%;
+      bottom: 35%; /* subiu para ficar centralizado visualmente */
       width: 90%;
       max-width: 400px;
       left: 50%;
       transform: translateX(-50%);
       text-align: center;
-      font-size: 22px;
+      font-size: 32px; /* maior */
       color: white;
       z-index: 4;
       line-height: 1.5;
@@ -96,8 +91,8 @@
         font-size: 20px;
       }
       .wave-text {
-        font-size: 18px;
-        bottom: 10%;
+        font-size: 26px;
+        bottom: 30%;
       }
       .corner-text {
         font-size: 12px;
@@ -107,22 +102,31 @@
 </head>
 <body>
   <div class="corner-text">Te amo muito...</div>
+  <div class="wave-text">Eu queria ser azul, mas azul não posso ser.<br>Pois azul é céu e mar e eu só quero ser seu azul, bebê.</div>
   <div class="click-here">Clique aqui <span>⬇️</span></div>
   <div class="circle" id="circle"></div>
   <div class="wave-mask"></div>
-  <div class="wave-text">
-    Eu queria ser azul, mas azul não posso ser.<br>
-    Pois azul é céu e mar e eu só quero ser seu azul, bebê.
-  </div>
 
   <script>
     const clickHere = document.querySelector('.click-here');
     const circle = document.getElementById('circle');
+    const waveText = document.querySelector('.wave-text');
+
+    // Posicionar aviso de clique no centro do texto
+    const rect = waveText.getBoundingClientRect();
+    clickHere.style.top = (rect.top + rect.height/2) + "px";
+    clickHere.style.left = (rect.left + rect.width/2) + "px";
 
     clickHere.addEventListener('click', () => {
       clickHere.style.display = 'none';
+      // Posicionar o círculo no centro do texto
+      const rectCircle = waveText.getBoundingClientRect();
+      circle.style.top = rectCircle.top + rectCircle.height/2 + "px";
+      circle.style.left = rectCircle.left + rectCircle.width/2 + "px";
       circle.style.transform = "translate(-50%, -50%) scale(1)";
     });
   </script>
 </body>
 </html>
+
+
