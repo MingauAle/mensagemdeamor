@@ -53,7 +53,7 @@
     user-select: none;
   }
 
-  /* Círculo azul */
+  /* Círculo azul animado */
   #circle {
     position: absolute;
     width: 0;
@@ -61,18 +61,18 @@
     border-radius: 50%;
     background-color: #74c7f8;
     transform: translate(-50%, -50%);
-    z-index: 1;
+    z-index: 1; /* atrás da máscara e textos */
     transition: width 15s ease-out, height 15s ease-out;
   }
 
-  /* Máscara de onda */
+  /* Máscara PNG sobre o círculo, mas atrás dos textos */
   #mask-layer {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 2;
+    z-index: 2; /* acima do círculo, mas abaixo dos textos */
     background-color: #74c7f8;
     -webkit-mask-image: url('https://i.postimg.cc/g0QTKdz8/Picsart-25-08-27-17-36-45-952.png');
     -webkit-mask-repeat: no-repeat;
@@ -82,8 +82,7 @@
     mask-repeat: no-repeat;
     mask-position: center;
     mask-size: cover;
-    opacity: 0; /* começa invisível */
-    transition: opacity 0.3s ease-in;
+    opacity: 1; /* sempre visível */
   }
 
   @media (max-width: 500px) {
@@ -108,29 +107,4 @@
 <script>
   const aviso = document.getElementById('aviso');
   const circle = document.getElementById('circle');
-  const mask = document.getElementById('mask-layer');
-  const textoGrande = document.getElementById('texto-grande');
-
-  aviso.addEventListener('click', () => {
-    // Esconde o aviso
-    aviso.style.display = 'none';
-
-    // Calcula o centro do texto grande
-    const rect = textoGrande.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-
-    // Posiciona o círculo azul
-    circle.style.left = `${centerX}px`;
-    circle.style.top = `${centerY}px`;
-
-    // Expande o círculo
-    circle.style.width = '300vmax';
-    circle.style.height = '300vmax';
-
-    // Mostra a máscara, aplicando o recorte correto do PNG
-    mask.style.opacity = 1;
-  });
-</script>
-</body>
-</html>
+  const textoGrande = docu
