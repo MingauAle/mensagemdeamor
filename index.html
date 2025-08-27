@@ -1,0 +1,136 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Meu Site Azul</title>
+  <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Comic+Neue&display=swap" rel="stylesheet">
+  <style>
+    html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: white;
+      font-family: 'Patrick Hand', sans-serif;
+    }
+
+    /* Mensagem no canto */
+    .corner-text {
+      position: absolute;
+      top: 5%;
+      left: 5%;
+      font-family: 'Comic Neue', 'Comic Sans MS', cursive;
+      font-size: 14px;
+      color: black;
+      z-index: 5;
+    }
+
+    /* Aviso de clique */
+    .click-here {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      font-size: 18px;
+      color: black;
+      cursor: pointer;
+      z-index: 5;
+    }
+
+    .click-here span {
+      display: block;
+      font-size: 24px;
+      margin-top: 5px;
+    }
+
+    /* Círculo azul */
+    .circle {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: #87CEFA;
+      z-index: 1;
+      transition: width 18s ease, height 18s ease;
+    }
+
+    /* Máscara da onda */
+    .wave-mask {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 50%;
+      background: url('https://i.postimg.cc/g0QTKdz8/Picsart-25-08-27-17-36-45-952.png') no-repeat center bottom;
+      background-size: contain;
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    /* Texto central na onda */
+    .wave-text {
+      position: absolute;
+      bottom: 15%;
+      width: 90%;
+      max-width: 400px;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      font-size: 22px;
+      color: white;
+      z-index: 4;
+      line-height: 1.5;
+    }
+
+    /* Responsivo: ajuste em telas menores */
+    @media (max-width: 600px) {
+      .click-here {
+        font-size: 16px;
+      }
+      .click-here span {
+        font-size: 20px;
+      }
+      .wave-text {
+        font-size: 18px;
+        bottom: 10%;
+      }
+      .corner-text {
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="corner-text">Te amo muito...</div>
+
+  <div class="click-here">
+    Clique aqui
+    <span>⬇️</span>
+  </div>
+
+  <div class="circle" id="circle"></div>
+
+  <div class="wave-mask"></div>
+
+  <div class="wave-text">
+    Eu queria ser azul, mas azul não posso ser.<br>
+    Pois azul é céu e mar e eu só quero ser seu azul, bebê.
+  </div>
+
+  <script>
+    const clickHere = document.querySelector('.click-here');
+    const circle = document.getElementById('circle');
+
+    clickHere.addEventListener('click', () => {
+      clickHere.style.display = 'none';
+      circle.style.width = "300vmax";
+      circle.style.height = "300vmax";
+    });
+  </script>
+</body>
+</html>
