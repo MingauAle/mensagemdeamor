@@ -48,3 +48,37 @@
     font-size: 18px;
     color: black;
     cursor: pointer;
+    z-index: 10;
+    text-align: center;
+    user-select: none;
+  }
+
+  /* Círculo azul */
+  #circle {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background-color: #74c7f8;
+    transform: translate(-50%, -50%);
+    z-index: 1; /* atrás da máscara e textos */
+    transition: width 15s ease-out, height 15s ease-out;
+
+    /* Máscara aplicada no próprio círculo */
+    -webkit-mask-image: url('https://i.postimg.cc/g0QTKdz8/Picsart-25-08-27-17-36-45-952.png');
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    -webkit-mask-size: cover;
+    mask-image: url('https://i.postimg.cc/g0QTKdz8/Picsart-25-08-27-17-36-45-952.png');
+    mask-repeat: no-repeat;
+    mask-position: center;
+    mask-size: cover;
+    opacity: 1; /* sempre visível, mas tamanho 0 no início */
+  }
+
+  @media (max-width: 500px) {
+    #texto-grande {
+      font-size: 18px;
+    }
+    #aviso {
+      font
