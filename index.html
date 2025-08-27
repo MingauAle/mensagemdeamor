@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
@@ -45,29 +45,29 @@
       margin-top: 5px;
     }
 
-    /* Círculo azul */
+    /* Círculo azul corrigido */
     .circle {
       position: absolute;
       top: 50%;
       left: 50%;
-      transform: translate(-50%, -50%);
-      width: 0;
-      height: 0;
+      width: 100vw;
+      height: 100vh;
       border-radius: 50%;
       background: #87CEFA;
       z-index: 1;
-      transition: width 18s ease, height 18s ease;
+      transform: translate(-50%, -50%) scale(0);
+      transition: transform 4s ease;
     }
 
-    /* Máscara da onda */
+    /* Máscara da onda preenchendo a tela */
     .wave-mask {
       position: absolute;
-      bottom: 0;
+      top: 0;
       left: 0;
-      width: 100%;
-      height: 50%;
+      width: 100vw;
+      height: 100vh;
       background: url('https://i.postimg.cc/g0QTKdz8/Picsart-25-08-27-17-36-45-952.png') no-repeat center bottom;
-      background-size: contain;
+      background-size: cover;
       z-index: 3;
       pointer-events: none;
     }
@@ -87,7 +87,7 @@
       line-height: 1.5;
     }
 
-    /* Responsivo: ajuste em telas menores */
+    /* Responsivo para celular */
     @media (max-width: 600px) {
       .click-here {
         font-size: 16px;
@@ -107,16 +107,9 @@
 </head>
 <body>
   <div class="corner-text">Te amo muito...</div>
-
-  <div class="click-here">
-    Clique aqui
-    <span>⬇️</span>
-  </div>
-
+  <div class="click-here">Clique aqui <span>⬇️</span></div>
   <div class="circle" id="circle"></div>
-
   <div class="wave-mask"></div>
-
   <div class="wave-text">
     Eu queria ser azul, mas azul não posso ser.<br>
     Pois azul é céu e mar e eu só quero ser seu azul, bebê.
@@ -128,8 +121,7 @@
 
     clickHere.addEventListener('click', () => {
       clickHere.style.display = 'none';
-      circle.style.width = "300vmax";
-      circle.style.height = "300vmax";
+      circle.style.transform = "translate(-50%, -50%) scale(1)";
     });
   </script>
 </body>
