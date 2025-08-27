@@ -38,7 +38,7 @@
     z-index: 6;
   }
 
-  /* Texto “botão” clicável, só texto, sem fundo */
+  /* Texto “botão” clicável, apenas texto */
   #aviso {
     position: absolute;
     top: 40%;
@@ -82,7 +82,8 @@
     mask-repeat: no-repeat;
     mask-position: center;
     mask-size: cover;
-    opacity: 1; /* já aparece desde o início */
+    opacity: 0; /* começa invisível */
+    transition: opacity 0.3s ease-in;
   }
 
   @media (max-width: 500px) {
@@ -107,11 +108,11 @@
 <script>
   const aviso = document.getElementById('aviso');
   const circle = document.getElementById('circle');
-
+  const mask = document.getElementById('mask-layer');
   const textoGrande = document.getElementById('texto-grande');
 
   aviso.addEventListener('click', () => {
-    // Esconde o texto de aviso
+    // Esconde o aviso
     aviso.style.display = 'none';
 
     // Calcula o centro do texto grande
@@ -126,6 +127,9 @@
     // Expande o círculo
     circle.style.width = '300vmax';
     circle.style.height = '300vmax';
+
+    // Mostra a máscara, aplicando o recorte correto do PNG
+    mask.style.opacity = 1;
   });
 </script>
 </body>
