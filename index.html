@@ -14,6 +14,7 @@
     font-family: sans-serif;
   }
 
+  /* Texto pequeno no canto superior esquerdo */
   #mensagem {
     position: absolute;
     top: 10px;
@@ -23,6 +24,7 @@
     z-index: 5;
   }
 
+  /* Texto grande branco centralizado mais embaixo */
   #texto-grande {
     position: absolute;
     top: 60%;
@@ -35,20 +37,29 @@
     max-width: 80%;
     z-index: 6;
     pointer-events: none;
+    opacity: 0;
+    transition: opacity 2s ease-in;
   }
 
+  /* Botão de clique */
   #aviso {
     position: absolute;
     top: 40%;
-    width: 100%;
-    text-align: center;
+    left: 50%;
+    transform: translateX(-50%);
     font-weight: bold;
     font-size: 18px;
-    color: black;
+    color: white;
+    background: rgba(0,0,0,0.5);
+    padding: 10px 20px;
+    border-radius: 10px;
     cursor: pointer;
-    z-index: 7;
+    z-index: 10;
+    text-align: center;
+    user-select: none;
   }
 
+  /* Círculo azul */
   #circle {
     position: absolute;
     width: 0;
@@ -60,6 +71,7 @@
     transition: width 15s ease-out, height 15s ease-out;
   }
 
+  /* Máscara de onda */
   #mask-layer {
     position: absolute;
     top: 0;
@@ -86,6 +98,7 @@
     }
     #aviso {
       font-size: 16px;
+      padding: 8px 16px;
     }
   }
 </style>
@@ -106,9 +119,30 @@
   const textoGrande = document.getElementById('texto-grande');
 
   aviso.addEventListener('click', () => {
+    // Esconde o aviso
     aviso.style.display = 'none';
 
-    // Pega a posição do texto grande
+    // Calcula o centro do texto grande
     const rect = textoGrande.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
-    const centerY
+    const centerY = rect.top + rect.height / 2;
+
+    // Posiciona o círculo azul
+    circle.style.left = `${centerX}px`;
+    circle.style.top = `${centerY}px`;
+
+    // Expande o círculo
+    circle.style.width = '300vmax';
+    circle.style.height = '300vmax';
+
+    // Mostra a máscara
+    mask.style.opacity = 1;
+
+    // Faz o texto grande aparecer gradualmente
+    setTimeout(() => {
+      textoGrande.style.opacity = 1;
+    }, 500); // começa a aparecer meio segundo depois
+  });
+</script>
+</body>
+</html>
