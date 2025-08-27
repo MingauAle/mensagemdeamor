@@ -51,7 +51,7 @@
       background: #87CEFA;
       z-index: 1;
       transform: translate(-50%, -50%) scale(0);
-      transition: transform 4s ease;
+      transition: transform 10s ease; /* animação mais lenta */
     }
 
     /* Máscara da onda preenchendo a tela */
@@ -67,19 +67,18 @@
       pointer-events: none;
     }
 
-    /* Texto central na onda */
+    /* Texto principal */
     .wave-text {
       position: absolute;
-      bottom: 45%; /* subiu acima do centro do círculo */
       width: 90%;
       max-width: 400px;
       left: 50%;
-      transform: translateX(-50%);
       text-align: center;
       font-size: 32px;
       color: white;
       z-index: 4;
       line-height: 1.5;
+      transform: translateX(-50%);
     }
 
     /* Responsivo para celular */
@@ -92,7 +91,6 @@
       }
       .wave-text {
         font-size: 26px;
-        bottom: 40%;
       }
       .corner-text {
         font-size: 12px;
@@ -115,20 +113,30 @@
     const circle = document.getElementById('circle');
     const waveText = document.querySelector('.wave-text');
 
-    // Posicionar aviso de clique um pouco abaixo do centro da tela
-    const rectText = waveText.getBoundingClientRect();
-    const centerX = rectText.left + rectText.width/2;
-    const centerY = rectText.top + rectText.height/2 + 50; // 50px mais abaixo
-    clickHere.style.top = centerY + "px";
-    clickHere.style.left = centerX + "px";
+    // Calcular centro do texto para alinhar tudo
+    function positionCenter() {
+      const rect = waveText.getBoundingClientRect();
+      const centerX = rect.left + rect.width/2;
+      const centerY = rect.top + rect.height/2 + 80; // centro mais para baixo
+      // Posicionar aviso de clique
+      clickHere.style.top = centerY + "px";
+      clickHere.style.left = centerX + "px";
+      // Posicionar texto principal sobre o círculo
+      waveText.style.top = (centerY - 80) + "px"; // subir texto acima do centro
+    }
+
+    // Inicial
+    positionCenter();
 
     clickHere.addEventListener('click', () => {
       clickHere.style.display = 'none';
-      // Posicionar o círculo no mesmo centro do aviso
-      circle.style.top = centerY + "px";
-      circle.style.left = centerX + "px";
+      circle.style.top = clickHere.style.top;
+      circle.style.left = clickHere.style.left;
       circle.style.transform = "translate(-50%, -50%) scale(1)";
     });
+
+    // Atualiza posições se a tela for redimensionada
+    window.addEventListener('resize', positionCenter);
   </script>
 </body>
 </html>
