@@ -1,142 +1,137 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>Meu Site Azul</title>
-  <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Comic+Neue&display=swap" rel="stylesheet">
-  <style>
-    html, body {
-      width: 100%;
-      height: 100%;
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
-      background: white;
-      font-family: 'Patrick Hand', sans-serif;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meu Site Azul</title>
+<link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Comic+Neue&display=swap" rel="stylesheet">
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background: white;
+    overflow: hidden;
+    font-family: 'Patrick Hand', sans-serif;
+  }
 
-    /* Mensagem no canto */
-    .corner-text {
-      position: absolute;
-      top: 5%;
-      left: 5%;
-      font-family: 'Comic Neue', 'Comic Sans MS', cursive;
-      font-size: 14px;
-      color: black;
-      z-index: 5;
-    }
+  /* Texto no canto */
+  .corner-text {
+    position: absolute;
+    top: 5%;
+    left: 5%;
+    font-family: 'Comic Neue', cursive;
+    font-size: 14px;
+    color: black;
+    z-index: 10;
+  }
 
-    /* Aviso de clique */
-    .click-here {
-      position: absolute;
-      text-align: center;
-      font-size: 18px;
-      color: black;
-      cursor: pointer;
-      z-index: 6; /* acima do texto e círculo */
-    }
+  /* Container central */
+  .container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    position: relative;
+    text-align: center;
+    z-index: 5;
+  }
 
-    .click-here span {
-      display: block;
-      font-size: 28px;
-      margin-top: 5px;
-    }
+  /* Botão clique */
+  .click-here {
+    font-size: 18px;
+    color: black;
+    cursor: pointer;
+    margin-bottom: 20px;
+    z-index: 6;
+  }
 
-    /* Círculo azul */
-    .circle {
-      position: absolute;
-      width: 200vmax;
-      height: 200vmax;
-      border-radius: 50%;
-      background: #87CEFA;
-      z-index: 1;
-      transform: translate(-50%, -50%) scale(0);
-      transition: transform 10s ease; /* animação mais lenta */
-    }
+  .click-here span {
+    display: block;
+    font-size: 28px;
+  }
 
-    /* Máscara da onda preenchendo a tela */
-    .wave-mask {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: url('https://i.postimg.cc/g0QTKdz8/Picsart-25-08-27-17-36-45-952.png') no-repeat center bottom;
-      background-size: cover;
-      z-index: 3;
-      pointer-events: none;
-    }
+  /* Texto principal */
+  .wave-text {
+    font-size: 28px;
+    line-height: 1.4;
+    color: white;
+    max-width: 90%;
+    opacity: 0; /* escondido no início */
+    transition: opacity 1.5s ease 1s;
+    z-index: 8; /* acima do círculo e onda */
+  }
 
-    /* Texto principal */
-    .wave-text {
-      position: absolute;
-      width: 90%;
-      max-width: 400px;
-      left: 50%;
-      text-align: center;
-      font-size: 32px;
-      color: white;
-      z-index: 4;
-      line-height: 1.5;
-      transform: translateX(-50%);
-    }
+  /* Círculo azul */
+  .circle {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: #87CEFA;
+    transform: translate(-50%, -50%);
+    transition: width 2s ease, height 2s ease;
+    z-index: 2;
+  }
 
-    /* Responsivo para celular */
-    @media (max-width: 600px) {
-      .click-here {
-        font-size: 16px;
-      }
-      .click-here span {
-        font-size: 24px;
-      }
-      .wave-text {
-        font-size: 26px;
-      }
-      .corner-text {
-        font-size: 12px;
-      }
-    }
-  </style>
+  .circle.expand {
+    width: 300vmax;
+    height: 300vmax;
+  }
+
+  /* Onda PNG */
+  .wave-mask {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 60%;
+    background: url('https://i.postimg.cc/g0QTKdz8/Picsart-25-08-27-17-36-45-952.png') no-repeat center bottom;
+    background-size: cover;
+    opacity: 0;
+    transition: opacity 2s ease;
+    z-index: 7;
+  }
+
+  /* Responsivo */
+  @media (max-width: 600px) {
+    .click-here { font-size: 16px; }
+    .click-here span { font-size: 24px; }
+    .wave-text { font-size: 24px; }
+    .corner-text { font-size: 12px; }
+  }
+</style>
 </head>
 <body>
   <div class="corner-text">Te amo muito...</div>
-  <div class="wave-text">
-    Eu queria ser azul, mas azul não posso ser.<br>
-    Pois azul é céu e mar e eu só quero ser seu azul, bebê.
+  <div class="container">
+    <div class="click-here">Clique aqui <span>❤️</span></div>
+    <div class="wave-text">
+      Eu queria ser azul, mas azul não posso ser.<br>
+      Pois azul é céu e mar e eu só quero ser seu azul, bebê.
+    </div>
   </div>
-  <div class="click-here">Clique aqui <span>❤️</span></div>
-  <div class="circle" id="circle"></div>
+  <div class="circle"></div>
   <div class="wave-mask"></div>
 
-  <script>
-    const clickHere = document.querySelector('.click-here');
-    const circle = document.getElementById('circle');
-    const waveText = document.querySelector('.wave-text');
+<script>
+  const clickHere = document.querySelector('.click-here');
+  const circle = document.querySelector('.circle');
+  const waveMask = document.querySelector('.wave-mask');
+  const waveText = document.querySelector('.wave-text');
 
-    // Calcular centro do texto para alinhar tudo
-    function positionCenter() {
-      const rect = waveText.getBoundingClientRect();
-      const centerX = rect.left + rect.width/2;
-      const centerY = rect.top + rect.height/2 + 80; // centro mais para baixo
-      // Posicionar aviso de clique
-      clickHere.style.top = centerY + "px";
-      clickHere.style.left = centerX + "px";
-      // Posicionar texto principal sobre o círculo
-      waveText.style.top = (centerY - 80) + "px"; // subir texto acima do centro
-    }
-
-    // Inicial
-    positionCenter();
-
-    clickHere.addEventListener('click', () => {
-      clickHere.style.display = 'none';
-      circle.style.top = clickHere.style.top;
-      circle.style.left = clickHere.style.left;
-      circle.style.transform = "translate(-50%, -50%) scale(1)";
-    });
-
-    // Atualiza posições se a tela for redimensionada
-    window.addEventListener('resize', positionCenter);
-  </script>
+  clickHere.addEventListener('click', () => {
+    clickHere.style.display = 'none';
+    circle.classList.add('expand');
+    setTimeout(() => {
+      waveMask.style.opacity = 1;
+      waveText.style.opacity = 1;
+    }, 1500); // aparece após círculo expandir
+  });
+</script>
 </body>
 </html>
