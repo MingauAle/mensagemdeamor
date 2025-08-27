@@ -8,14 +8,10 @@
     body {
         margin: 0;
         padding: 0;
-        font-family: Arial, sans-serif;
+        font-family: sans-serif;
         overflow: hidden;
         background: white;
-        display: flex;
-        justify-content: center;
-        align-items: center;
         height: 100vh;
-        flex-direction: column;
     }
 
     #mensagem {
@@ -26,23 +22,23 @@
         left: 10px;
     }
 
-    #aviso {
-        font-size: 18px;
-        font-weight: bold;
-        position: absolute;
-        text-align: center;
-        color: black;
-        transition: opacity 0.3s;
-    }
-
     #container {
         position: relative;
         width: 100%;
         height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
         overflow: hidden;
+    }
+
+    #aviso {
+        font-size: 18px;
+        font-weight: bold;
+        color: black;
+        position: absolute;
+        top: 40%;
+        width: 100%;
+        text-align: center;
+        z-index: 10;
+        cursor: pointer;
     }
 
     #circle {
@@ -52,25 +48,38 @@
         background-color: #74c7f8;
         border-radius: 50%;
         transform: translate(-50%, -50%);
-        top: 50%;
+        top: 60%; /* mais para baixo */
         left: 50%;
         z-index: 1;
-        transition: width 3s ease-out, height 3s ease-out;
+        transition: width 15s ease-out, height 15s ease-out;
     }
 
-    #wave {
+    /* Máscara real usando a PNG */
+    #mask-layer {
         position: absolute;
-        bottom: 0;
+        top: 0;
+        left: 0;
         width: 100%;
-        height: 60vh; /* cobre boa parte da tela */
-        background: url('onda.png') no-repeat center bottom;
-        background-size: cover;
-        opacity: 0;
+        height: 100%;
         z-index: 2;
+        -webkit-mask-image: url('onda.png');
+        -webkit-mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        -webkit-mask-size: cover;
+        mask-image: url('onda.png');
+        mask-repeat: no-repeat;
+        mask-position: center;
+        mask-size: cover;
+        background: #74c7f8; /* cor azul que preenche dentro da máscara */
+        opacity: 0;
+        transition: opacity 2s ease-in;
     }
 
     #texto {
         position: absolute;
+        top: 75%;
+        left: 50%;
+        transform: translateX(-50%);
         text-align: center;
         font-size: 22px;
         font-weight: bold;
@@ -78,10 +87,7 @@
         max-width: 80%;
         opacity: 0;
         z-index: 3;
-    }
-
-    .mostrar {
-        opacity: 1;
+        transition: opacity 3s ease-in;
     }
 </style>
 </head>
@@ -90,37 +96,31 @@
     <div id="container">
         <div id="aviso">Clique para ver a surpresa</div>
         <div id="circle"></div>
-        <div id="wave"></div>
+        <div id="mask-layer"></div>
         <div id="texto">Eu queria ser azul, mas azul não posso ser. Pois azul é céu e mar e eu só quero ser seu azul, bebê.</div>
     </div>
 
 <script>
     const aviso = document.getElementById('aviso');
     const circle = document.getElementById('circle');
-    const wave = document.getElementById('wave');
+    const mask = document.getElementById('mask-layer');
     const texto = document.getElementById('texto');
-
-    // Centraliza aviso e texto no meio da tela
-    function centralizar(elemento) {
-        elemento.style.top = '50%';
-        elemento.style.left = '50%';
-        elemento.style.transform = 'translate(-50%, -50%)';
-    }
-    centralizar(aviso);
-    centralizar(texto);
 
     document.getElementById('container').addEventListener('click', () => {
         aviso.style.display = 'none';
 
-        // Anima círculo
-        circle.style.width = '250vmax';
-        circle.style.height = '250vmax';
+        // Animação do círculo por 15 segundos
+        circle.style.width = '300vmax';
+        circle.style.height = '300vmax';
 
-        // Mostra a onda e o texto junto com a expansão do círculo
+        // Mostra a máscara e depois o texto
         setTimeout(() => {
-            wave.style.opacity = 1;
-            texto.classList.add('mostrar');
-        }, 800); // Começa antes do círculo terminar
+            mask.style.opacity = 1;
+        }, 5000); // máscara aparece após 5s
+
+        setTimeout(() => {
+            texto.style.opacity = 1;
+        }, 7000); // texto aparece após 7s
     });
 </script>
 </body>
