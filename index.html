@@ -3,65 +3,112 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Meu Site Azul</title>
+<title>Surpresa Azul</title>
 <style>
-    body {
-        margin: 0;
-        padding: 0;
-        font-family: sans-serif;
-        overflow: hidden;
-        background: white;
-        height: 100vh;
-    }
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+    background: white;
+    font-family: sans-serif;
+  }
 
-    #mensagem {
-        font-size: 14px;
-        font-weight: bold;
-        position: absolute;
-        top: 10px;
-        left: 10px;
-    }
+  #mensagem {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    z-index: 5;
+  }
 
-    #container {
-        position: relative;
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-    }
+  #texto-grande {
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 22px;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    max-width: 80%;
+    z-index: 6;
+    pointer-events: none;
+  }
 
+  #aviso {
+    position: absolute;
+    top: 40%;
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+    font-size: 18px;
+    color: black;
+    cursor: pointer;
+    z-index: 7;
+  }
+
+  #circle {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background-color: #74c7f8;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    transition: width 15s ease-out, height 15s ease-out;
+  }
+
+  #mask-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    background-color: #74c7f8;
+    -webkit-mask-image: url('https://i.postimg.cc/g0QTKdz8/Picsart-25-08-27-17-36-45-952.png');
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    -webkit-mask-size: cover;
+    mask-image: url('https://i.postimg.cc/g0QTKdz8/Picsart-25-08-27-17-36-45-952.png');
+    mask-repeat: no-repeat;
+    mask-position: center;
+    mask-size: cover;
+    opacity: 0;
+    transition: opacity 1s ease-in;
+  }
+
+  @media (max-width: 500px) {
+    #texto-grande {
+      font-size: 18px;
+    }
     #aviso {
-        font-size: 18px;
-        font-weight: bold;
-        color: black;
-        position: absolute;
-        top: 40%;
-        width: 100%;
-        text-align: center;
-        z-index: 10;
-        cursor: pointer;
+      font-size: 16px;
     }
+  }
+</style>
+</head>
+<body>
+  <div id="mensagem">te amo muito...</div>
+  <div id="container">
+    <div id="aviso">Clique para ver a surpresa</div>
+    <div id="circle"></div>
+    <div id="mask-layer"></div>
+    <div id="texto-grande">Eu queria ser azul, mas azul não posso ser. Pois azul é céu e mar e eu só quero ser seu azul, bebê.</div>
+  </div>
 
-    #circle {
-        position: absolute;
-        width: 0;
-        height: 0;
-        background-color: #74c7f8;
-        border-radius: 50%;
-        transform: translate(-50%, -50%);
-        top: 60%;
-        left: 50%;
-        z-index: 2;
-        transition: width 15s ease-out, height 15s ease-out;
-    }
+<script>
+  const aviso = document.getElementById('aviso');
+  const circle = document.getElementById('circle');
+  const mask = document.getElementById('mask-layer');
+  const textoGrande = document.getElementById('texto-grande');
 
-    #mask-layer {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 3; /* acima do círculo */
-        -webkit-mask-image: url('onda.png');
-        -webkit-mask-repeat: no-repeat;
-        -webkit-mask-position: center;
-        -webkit-mask-si
+  aviso.addEventListener('click', () => {
+    aviso.style.display = 'none';
+
+    // Pega a posição do texto grande
+    const rect = textoGrande.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY
