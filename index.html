@@ -12,6 +12,11 @@ html, body {
   font-family:'Comic Neue','Patrick Hand',sans-serif;
 }
 
+/* Por padrão, esconder todo o conteúdo */
+#container, #mensagem {
+  display: none;
+}
+
 #mensagem {
   position:absolute; top:10px; left:10px;
   font-size:12px; font-weight:bold; z-index:5;
@@ -83,7 +88,7 @@ html, body {
 }
 
 .glow {
-  text-shadow: 0 0 3px white, 0 0 6px white, 0 0 10px white; /* glow mais delicado */
+  text-shadow: 0 0 2px white, 0 0 4px white, 0 0 7px white; /* glow bem suave */
 }
 
 .particle {
@@ -101,7 +106,7 @@ html, body {
   100% { transform:translate(var(--x), var(--y)) scale(0.5); opacity:0; }
 }
 
-/* Partículas de brilho constante (brasas) */
+/* Partículas de brilho constante (brasas) - mais espaçadas */
 .brilho {
   position:absolute;
   width:4px; height:4px;
@@ -118,7 +123,11 @@ html, body {
   100% { transform: translate(-2px,3px) scale(0.8); opacity:0.6; }
 }
 
+/* Mostrar conteúdo apenas em telas pequenas */
 @media(max-width:500px){
+  #container, #mensagem {
+    display: block;
+  }
   #aviso { font-size:10px; }
   #texto-grande { font-size:18px; }
 }
@@ -169,7 +178,7 @@ function criarParticulas(aviso){
 }
 
 // Partículas de brilho constante (brasas) - mais espaçadas
-const numBrasas = 25; // menos partículas, mais espaçadas
+const numBrasas = 25;
 const brasas = [];
 for(let i=0;i<numBrasas;i++){
   const b = document.createElement('div');
