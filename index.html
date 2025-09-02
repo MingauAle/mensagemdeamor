@@ -22,7 +22,6 @@ html, body {
   font-weight:bold; font-size:12px; color:black;
   cursor:pointer; z-index:10; text-align:center;
   user-select:none; 
-  /* movido 2px p/ esquerda e mantendo -3.5px p/ cima */
   transform:translate(calc(-50% + 1.0px), calc(-50% - 3.5px));
   display:flex; flex-direction:column; align-items:center;
   animation:flutuar 0.7s ease-in-out infinite alternate;
@@ -80,6 +79,11 @@ html, body {
   max-width:80%;
   z-index:6;
   cursor:pointer;
+  transition: text-shadow 2s ease-in-out;
+}
+
+.glow {
+  text-shadow: 0 0 3px white, 0 0 6px white, 0 0 10px white; /* glow mais delicado */
 }
 
 .particle {
@@ -95,6 +99,23 @@ html, body {
 @keyframes explode {
   0% { transform:translate(0,0) scale(1); opacity:1; }
   100% { transform:translate(var(--x), var(--y)) scale(0.5); opacity:0; }
+}
+
+/* Partículas de brilho constante (brasas) */
+.brilho {
+  position:absolute;
+  width:4px; height:4px;
+  border-radius:50%;
+  background:white;
+  opacity:1;
+  z-index:8;
+  animation:brasasAnim linear infinite;
+}
+
+@keyframes brasasAnim {
+  0% { transform: translate(0,0) scale(0.8); opacity:0.6; }
+  50% { transform: translate(2px,-3px) scale(1.2); opacity:1; }
+  100% { transform: translate(-2px,3px) scale(0.8); opacity:0.6; }
 }
 
 @media(max-width:500px){
@@ -120,6 +141,7 @@ const aviso = document.getElementById('aviso');
 const circle = document.getElementById('circle');
 const texto = document.getElementById('texto-grande');
 
+// Posicionar aviso
 function posicionarAviso() {
   const rect = texto.getBoundingClientRect();
   aviso.style.left = `${rect.left + rect.width/2}px`;
@@ -128,7 +150,7 @@ function posicionarAviso() {
 window.addEventListener('load', posicionarAviso);
 window.addEventListener('resize', posicionarAviso);
 
-// Partículas aviso
+// Partículas do clique
 function criarParticulas(aviso){
   for(let i=0;i<20;i++){
     const particle=document.createElement('div');
@@ -139,12 +161,24 @@ function criarParticulas(aviso){
     particle.style.setProperty('--x',`${Math.cos(angle)*distance}px`);
     particle.style.setProperty('--y',`${Math.sin(angle)*distance}px`);
     const rect = aviso.getBoundingClientRect();
-    // movidas 2px p/ esquerda e 1px p/ cima
     particle.style.left = `${rect.width/2 - 11.1}px`;
     particle.style.top = `${rect.height/2 - 2.5}px`;
     aviso.appendChild(particle);
     particle.addEventListener('animationend',()=>particle.remove());
   }
+}
+
+// Partículas de brilho constante (brasas) - mais espaçadas
+const numBrasas = 25; // menos partículas, mais espaçadas
+const brasas = [];
+for(let i=0;i<numBrasas;i++){
+  const b = document.createElement('div');
+  b.className = 'brilho';
+  b.style.left = `${Math.random() * window.innerWidth}px`;
+  b.style.top = `${Math.random() * window.innerHeight}px`;
+  b.style.animationDuration = `${10 + Math.random()*5}s`;
+  b.style.animationDelay = `${Math.random()*4}s`;
+  brasas.push(b);
 }
 
 // Música
@@ -170,9 +204,15 @@ aviso.addEventListener('click', ()=>{
   circle.classList.add('expand-circle');
 
   const p = bgm.play();
-  if (p && typeof p.then === 'function') {
-    p.catch(()=>{});
-  }
+  if (p && typeof p.then === 'function') { p.catch(()=>{}); }
+
+  // Glow do texto após 4s
+  setTimeout(()=>{ texto.classList.add('glow'); }, 4000);
+
+  // Adiciona brasas à tela após 4s
+  setTimeout(()=>{
+    brasas.forEach(b => document.body.appendChild(b));
+  },4000);
 });
 
 // Animação texto
