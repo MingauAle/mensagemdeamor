@@ -118,8 +118,8 @@ const texto = document.getElementById('texto-grande');
 // Posiciona aviso no centro do texto principal
 function posicionarAviso() {
   const rect = texto.getBoundingClientRect();
-  aviso.style.left = ${rect.left + rect.width/2}px;
-  aviso.style.top = ${rect.top + rect.height/2}px;
+  aviso.style.left = `${rect.left + rect.width/2}px`;
+  aviso.style.top = `${rect.top + rect.height/2}px`;
 }
 window.addEventListener('load', posicionarAviso);
 window.addEventListener('resize', posicionarAviso);
@@ -131,15 +131,25 @@ function criarParticulas(aviso){
     particle.className='particle';
     const angle=Math.random()*2*Math.PI;
     const distance=40+Math.random()*30;
-    particle.style.setProperty('--x',${Math.cos(angle)*distance}px);
-    particle.style.setProperty('--y',${Math.sin(angle)*distance}px);
+    particle.style.setProperty('--x',`${Math.cos(angle)*distance}px`);
+    particle.style.setProperty('--y',`${Math.sin(angle)*distance}px`);
     const rect = aviso.getBoundingClientRect();
-    particle.style.left = ${rect.width/2}px;
-    particle.style.top = ${rect.height/2}px;
+    particle.style.left = `${rect.width/2}px`;
+    particle.style.top = `${rect.height/2}px`;
     aviso.appendChild(particle);
     particle.addEventListener('animationend',()=>particle.remove());
   }
 }
+
+// Música
+const bgm = document.createElement('audio');
+bgm.id = 'bgm';
+bgm.src = 'minhafelicidade.mp3';
+bgm.loop = true;
+bgm.preload = 'auto';
+bgm.playsInline = true;
+bgm.style.display = 'none';
+document.body.appendChild(bgm);
 
 // Clique no aviso
 aviso.addEventListener('click', ()=>{
@@ -149,14 +159,20 @@ aviso.addEventListener('click', ()=>{
   const rect = texto.getBoundingClientRect();
   const centerX = rect.left + rect.width/2;
   const centerY = rect.top + rect.height/2;
-  circle.style.left = ${centerX}px;
-  circle.style.top = ${centerY}px;
+  circle.style.left = `${centerX}px`;
+  circle.style.top = `${centerY}px`;
 
-  // Aplica animação do círculo com início super lento
+  // Aplica animação do círculo
   circle.classList.add('expand-circle');
+
+  // Toca a música
+  const p = bgm.play();
+  if (p && typeof p.then === 'function') {
+    p.catch(()=>{});
+  }
 });
 
-// Animação do texto: eixo Y sincronizado com onda, horizontal e rotação suaves
+// Animação do texto
 let start = null;
 function animarTexto(timestamp){
   if(!start) start = timestamp;
@@ -170,7 +186,7 @@ function animarTexto(timestamp){
   const x = Math.sin(progress * 1.5 * Math.PI) * boiarAmplitude;
   const rot = Math.sin(progress * 1.5 * Math.PI) * rotAmplitude;
 
-  texto.style.transform = translate(calc(-50% + ${x}px), calc(-50% + ${y}px)) rotate(${rot}deg);
+  texto.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px)) rotate(${rot}deg)`;
   requestAnimationFrame(animarTexto);
 }
 requestAnimationFrame(animarTexto);
