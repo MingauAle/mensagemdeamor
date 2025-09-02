@@ -21,7 +21,9 @@ html, body {
   position:absolute;
   font-weight:bold; font-size:12px; color:black;
   cursor:pointer; z-index:10; text-align:center;
-  user-select:none; transform:translate(-50%,-50%);
+  user-select:none; 
+  /* movido 2px p/ esquerda e mantendo -3.5px p/ cima */
+  transform:translate(calc(-50% + 1.0px), calc(-50% - 3.5px));
   display:flex; flex-direction:column; align-items:center;
   animation:flutuar 0.7s ease-in-out infinite alternate;
 }
@@ -29,8 +31,8 @@ html, body {
 #aviso span { margin-top:6px; }
 
 @keyframes flutuar {
-  0% { transform: translate(-50%,-50%) scale(1); }
-  100% { transform: translate(-50%,-50%) scale(1.12); }
+  0% { transform: translate(calc(-50% + 1.0px), calc(-50% - 3.5px)) scale(1); }
+  100% { transform: translate(calc(-50% + 1.0px), calc(-50% - 3.5px)) scale(1.12); }
 }
 
 #circle {
@@ -39,7 +41,6 @@ html, body {
   transform:translate(-50%,-50%); z-index:1;
 }
 
-/* Círculo com velocidade inicial lenta e acelerando depois */
 .expand-circle {
   animation:expandCircle 17s forwards cubic-bezier(0.25, 0.1, 0.25, 1);
 }
@@ -82,14 +83,18 @@ html, body {
 }
 
 .particle {
-  position:absolute; width:6px; height:6px; border-radius:50%;
-  background:#ff4d6d; pointer-events:none; z-index:11; opacity:1;
-  animation:explode 0.8s forwards;
+  position:absolute; 
+  font-size:14px; 
+  pointer-events:none; 
+  z-index:11; 
+  opacity:1;
+  animation:explode 1.2s forwards;
+  transition: opacity 1.2s, transform 1.2s;
 }
 
 @keyframes explode {
   0% { transform:translate(0,0) scale(1); opacity:1; }
-  100% { transform:translate(var(--x), var(--y)) scale(0); opacity:0; }
+  100% { transform:translate(var(--x), var(--y)) scale(0.5); opacity:0; }
 }
 
 @media(max-width:500px){
@@ -115,7 +120,6 @@ const aviso = document.getElementById('aviso');
 const circle = document.getElementById('circle');
 const texto = document.getElementById('texto-grande');
 
-// Posiciona aviso no centro do texto principal
 function posicionarAviso() {
   const rect = texto.getBoundingClientRect();
   aviso.style.left = `${rect.left + rect.width/2}px`;
@@ -129,13 +133,15 @@ function criarParticulas(aviso){
   for(let i=0;i<20;i++){
     const particle=document.createElement('div');
     particle.className='particle';
+    particle.textContent = '💖';
     const angle=Math.random()*2*Math.PI;
     const distance=40+Math.random()*30;
     particle.style.setProperty('--x',`${Math.cos(angle)*distance}px`);
     particle.style.setProperty('--y',`${Math.sin(angle)*distance}px`);
     const rect = aviso.getBoundingClientRect();
-    particle.style.left = `${rect.width/2}px`;
-    particle.style.top = `${rect.height/2}px`;
+    // movidas 2px p/ esquerda e 1px p/ cima
+    particle.style.left = `${rect.width/2 - 11.1}px`;
+    particle.style.top = `${rect.height/2 - 2.5}px`;
     aviso.appendChild(particle);
     particle.addEventListener('animationend',()=>particle.remove());
   }
@@ -151,7 +157,6 @@ bgm.playsInline = true;
 bgm.style.display = 'none';
 document.body.appendChild(bgm);
 
-// Clique no aviso
 aviso.addEventListener('click', ()=>{
   criarParticulas(aviso);
   setTimeout(()=>{aviso.style.display='none';},150);
@@ -162,17 +167,15 @@ aviso.addEventListener('click', ()=>{
   circle.style.left = `${centerX}px`;
   circle.style.top = `${centerY}px`;
 
-  // Aplica animação do círculo
   circle.classList.add('expand-circle');
 
-  // Toca a música
   const p = bgm.play();
   if (p && typeof p.then === 'function') {
     p.catch(()=>{});
   }
 });
 
-// Animação do texto
+// Animação texto
 let start = null;
 function animarTexto(timestamp){
   if(!start) start = timestamp;
